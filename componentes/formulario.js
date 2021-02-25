@@ -12,8 +12,9 @@ import {
 
 // importando paquete
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import shortid from 'shortid';
 
-const Formulario = () => {
+const Formulario = ({citas,setCitas,setMostrarform}) => {
     // Definiendo States
     const [paciente, setPaciente] = useState('');
     const [propietario, setPropietario] = useState('');
@@ -75,8 +76,21 @@ const Formulario = () => {
               return ;
           }
 
-    }
+          // Crear una nueva cita
+          const cita = {paciente, propietario, telefono, fecha, hora, sintoma};
+         
+          cita.id=shortid.generate();// Genera id unico
 
+          const citasNuevo = [...citas, cita];
+          setCitas(citasNuevo);
+          console.log(citasNuevo);
+
+         // Ocultar formulario
+         setMostrarform(false);
+
+         // Resetear formulario
+          
+    }
     // Muestra alerta si falla la validacion
     const mostrarAlerta = () =>{
         Alert.alert(
@@ -157,7 +171,7 @@ const Formulario = () => {
                     ></TextInput>  
                 </View>
 
-                <View>
+                <View style={styles.contentBoton}>
                     <TouchableHighlight onPress={() => crearNuevaCita()} style={styles.btnSubmit}>
                         <Text style={styles.textoSubmit}> Crear Nueva Cita </Text>
                     </TouchableHighlight>
@@ -172,7 +186,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingHorizontal: 20,
         paddingVertical: 10,
-        marginHorizontal: '2.5%'
+       
 
      },
     label:{
@@ -196,6 +210,9 @@ const styles = StyleSheet.create({
         color:'#fff',
         fontWeight:'bold',
         textAlign: 'center'
+    },
+    contentBoton:{
+        marginBottom:20
     }
 });
  
